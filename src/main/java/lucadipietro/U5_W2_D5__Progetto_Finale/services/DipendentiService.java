@@ -1,5 +1,7 @@
 package lucadipietro.U5_W2_D5__Progetto_Finale.services;
 
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 import lucadipietro.U5_W2_D5__Progetto_Finale.entities.Dipendente;
 import lucadipietro.U5_W2_D5__Progetto_Finale.exceptions.BadRequestException;
 import lucadipietro.U5_W2_D5__Progetto_Finale.exceptions.NotFoundException;
@@ -11,13 +13,18 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.UUID;
 
 @Service
 public class DipendentiService {
     @Autowired
     private DipendentiRepository dipendentiRepository;
+
+    @Autowired
+    private Cloudinary cloudinaryUploader;
 
     public Page<Dipendente> getDipendenti(int pageNumber, int pageSize, String sortBy){
         if(pageSize > 50) pageSize = 50;
@@ -58,5 +65,12 @@ public class DipendentiService {
     public void findByIdAndDelete(UUID dipendenteId) {
         Dipendente found = this.findById(dipendenteId);
         this.dipendentiRepository.delete(found);
+    }
+
+    public Dipendente uploadImage(UUID dipendenteId, MultipartFile file) throws IOException {
+        Dipendente found = this.findById(dipendenteId);
+        String url = (String) cloudinaryUploader.uploader().upload(file.getBytes(), ObjectUtils.emptyMap()).get("url");
+        found.setAvatar(url);
+        return this.dipendentiRepository.save(found);
     }
 }
