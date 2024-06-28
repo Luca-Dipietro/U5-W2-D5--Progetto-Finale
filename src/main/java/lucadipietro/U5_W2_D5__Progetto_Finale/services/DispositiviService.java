@@ -59,9 +59,7 @@ public class DispositiviService {
         else if (foundDispositivo.getStato() == StatoDispositivo.ASSEGNATO){
             throw new BadRequestException("Il dispositivo è gia assegnato");
         }
-        else if (foundDispositivo.getDipendente().getId() == foundDipendente.getId()){
-            throw new BadRequestException("Il dispositivo è già assegnato al relativo dipendente");
-        } else {
+        else {
             foundDispositivo.setStato(StatoDispositivo.ASSEGNATO);
             foundDispositivo.setDipendente(foundDipendente);
             return this.dispositiviRepository.save(foundDispositivo);
