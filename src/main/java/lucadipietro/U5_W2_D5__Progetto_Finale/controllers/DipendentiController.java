@@ -22,7 +22,7 @@ public class DipendentiController {
     private DipendentiService dipendentiService;
 
     @GetMapping
-    public Page<Dipendente> getAllBlogPosts(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "id") String sortBy){
+    public Page<Dipendente> getAllDipendenti(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "id") String sortBy){
         return this.dipendentiService.getDipendenti(page,size,sortBy);
     }
 
