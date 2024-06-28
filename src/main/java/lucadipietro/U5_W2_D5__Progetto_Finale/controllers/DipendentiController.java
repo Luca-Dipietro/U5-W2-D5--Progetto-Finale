@@ -28,7 +28,7 @@ public class DipendentiController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    private Dipendente saveDipendente(@RequestBody @Validated DipendentiDTO body, BindingResult validationResult){
+    public Dipendente saveDipendente(@RequestBody @Validated DipendentiDTO body, BindingResult validationResult){
         if(validationResult.hasErrors()){
             throw new BadRequestException(validationResult.getAllErrors());
         } else {
@@ -37,12 +37,12 @@ public class DipendentiController {
     }
 
     @GetMapping("/{dipendenteId}")
-    private Dipendente findById(@PathVariable UUID dipendenteId){
+    public Dipendente findById(@PathVariable UUID dipendenteId){
         return this.dipendentiService.findById(dipendenteId);
     }
 
     @PutMapping("/{dipendenteId}")
-    private Dipendente findByIdAndUpdate(@PathVariable UUID dipendenteId,@RequestBody @Validated DipendentiDTO body,BindingResult validationResult){
+    public Dipendente findByIdAndUpdate(@PathVariable UUID dipendenteId,@RequestBody @Validated DipendentiDTO body,BindingResult validationResult){
         if(validationResult.hasErrors()){
             throw new BadRequestException(validationResult.getAllErrors());
         }else {
