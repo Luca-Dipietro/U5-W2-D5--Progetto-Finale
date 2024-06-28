@@ -52,13 +52,13 @@ public class DipendentiService {
         return this.dipendentiRepository.findById(dipendenteId).orElseThrow(() -> new NotFoundException(dipendenteId));
     }
 
-    public Dipendente findByIdAndUpdate(UUID dipendenteId, Dipendente updateDipendente){
+    public Dipendente findByIdAndUpdate(UUID dipendenteId, DipendentiDTO body){
         Dipendente found = this.findById(dipendenteId);
-        found.setUsername(updateDipendente.getUsername());
-        found.setNome(updateDipendente.getNome());
-        found.setCognome(updateDipendente.getCognome());
-        found.setEmail(updateDipendente.getEmail());
-        found.setAvatar("https://ui-avatars.com/api/?name=" + updateDipendente.getNome() + "+" + updateDipendente.getCognome());
+        found.setUsername(body.username());
+        found.setNome(body.nome());
+        found.setCognome(body.cognome());
+        found.setEmail(body.email());
+        found.setAvatar("https://ui-avatars.com/api/?name=" + body.nome() + "+" + body.cognome());
         return this.dipendentiRepository.save(found);
     }
 
